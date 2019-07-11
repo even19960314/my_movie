@@ -1,0 +1,71 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>{{name}}</title>
+	<link rel="stylesheet" href="{% static 'film_search/css/base.css'%}">
+	<link rel="stylesheet" href="{% static 'film_search/css/video.css'%}">
+	<script src="{% static 'film_search/js/adjust.js'%}"></script>
+	<script src="{% static 'film_search/js/jq.js'%}"></script>
+	<script src="https://cdn.jsdelivr.net/hls.js/latest/hls.min.js"></script>
+</head>
+<body>
+	<header class="header clearfix">
+		<div class="back"><a onclick="goBack()">返回</a></div>
+		<!-- 搜索 -->
+		<div class="search clearfix">
+			<form class="clearfix search-form" action="{%url 'film_search:search'%}">
+				<input type="text" name="keyword" id="" class="search-inp" value="复仇者联盟4">
+				<button type="submit" class="search-btn">搜索</button>
+			</form>
+		</div>
+	</header>
+	<nav class="head-nav">
+		<p class="video-name">{{name}}{{show_now_name}}</p>
+	</nav>
+	<section>
+		<div class="video">
+	
+			<script type="text/javascript" src="{%static 'ckplayer/ckplayer/ckplayer.js'%}"></script>
+            <div id="video" style="width:600px;height:400px;"></div>
+            <script type="text/javascript">
+            	var videoObject = {
+            		container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
+            		variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
+            		flashplayer:false,//如果强制使用flashplayer则设置成true
+            		video:{
+            		    file:'{{show_now_url}}',//视频地址
+            		    type:'video/m3u8'
+            		}
+            	};
+            	var player=new ckplayer(videoObject);
+            	
+            	function goBack(){
+                    window.history.back()
+                }
+            </script>
+		</div>
+		
+		<!-- 内容简介 -->
+		<div class="cont-jianj">
+			<p>《<span id="cont_jianj_name">{{name}}</span>》 内容简介</p>
+			<div class="cont-text" id="cont_jianj_text">{{intro}}</div>
+		</div>
+		
+		<!-- 剧集 -->
+		<div class="episodes clearfix">
+		
+		{%for i in m3u8.name%}
+			<span><a href="http://127.0.0.1:8000/search/play/?url={{url}}&num={{i.1}}">{{i.0}}</a></span>
+		{%endfor%}
+
+		</div>
+		
+	</section>
+</body>
+
+<script src="{% static 'film_search/js/video.js'%}"></script>
+</html>

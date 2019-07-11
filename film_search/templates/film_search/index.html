@@ -1,0 +1,64 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>My Cinema</title>
+	<link rel="stylesheet" href="{% static 'film_search/css/base.css'%}">
+	<link rel="stylesheet" href="{% static 'film_search/css/index.css'%}">
+	<script src="{% static 'film_search/js/adjust.js'%}"></script>
+</head>
+<body>
+	<section>
+		<div class="wrap">
+			<div class="logo">
+				<a href="#"></a>
+			</div>
+			<!-- 搜索 -->
+			<div class="search clearfix">
+				<form class="clearfix search-form" action="{%url 'film_search:search'%}" method="GET">
+					<input type="text" name="keyword" id="" class="search-inp" value="复仇者联盟4">
+					<button type="submit" class="search-btn">搜索</button>
+				</form>
+			</div>
+			<!-- 引导 -->
+			<div class="guide">
+				<a href="./classification.html" class="round">更多火爆影视 --></a>
+			</div>
+		</div>
+	</section>
+</body>
+<script src="{% static 'film_search/js/carousel.js'%}"></script>
+<script>
+	window.onload = function () {
+
+		var hrt = document.documentElement.clientHeight; //获取当前可视区域的高度存到hrt的变量里。
+		console.log(hrt);
+		document.body.style.height = hrt + 'px'
+		document.body.style.position = 'absolute'
+		// $('body').height(hrt+'px'); //把获取到的高度直接赋值给body
+		var searchForm = document.querySelector('.search-form');
+		/** @type {HTMLCanvasElement} */
+		var searchInp = document.querySelector('.search-inp');
+		searchInp.addEventListener('focus', function () {
+			searchForm.style.boxShadow = '0 0 6px 1px #fff';
+		})
+		searchInp.addEventListener('blur', function () {
+			searchForm.style.boxShadow = 'none';
+		})
+
+		/** @type {HTMLCanvasElement} */
+		var guide_vfx = document.querySelector('.guide');
+		
+		var scale_flag = 1;
+		setInterval(function() {
+			scale_flag += 0.01
+			scale_flag > 1.4 ? scale_flag = 0.4 : false
+			guide_vfx.style.transform = `scale(${scale_flag})`
+		}, 100/60);
+		
+	}
+</script>
+</html>
